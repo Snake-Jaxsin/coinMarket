@@ -1,0 +1,24 @@
+from bs4 import BeautifulSoup
+import requests
+
+url = "https://coinmarketcap.com/"
+page = requests.get(url).text
+doc = BeautifulSoup(page, 'html.parser')
+
+tbody = doc.tbody
+trs = tbody.contents
+
+prices = {}
+
+for tr in trs[:10]:
+    name, price = tr.contents[2:4]
+    fixed_name = name.p.string
+    fixed_price = price.a.string
+
+    prices[fixed_name] = fixed_price
+
+    print(prices)
+
+
+
+
